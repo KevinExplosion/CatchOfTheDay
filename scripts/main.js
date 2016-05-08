@@ -1,5 +1,13 @@
+//file requirements
 var React = require('react');
 var ReactDOM = require('react-dom');
+
+//react-router requirements
+var ReactRouter = require('react-router');
+var Router = ReactRouter.Router;
+var Route = ReactRouter.Route;
+var Navigation = ReactRouter.Navigation;
+var createBrowserHistory = require('history/lib/createBrowserHistory');
 
 /*
 App
@@ -11,7 +19,7 @@ var App = React.createClass({
     return (
       <div className = "catch-of-the-day">
         <div className="menu">
-          <Header />
+          <Header tagline="Fresh Seafood Market" />
         </div>
         <Order />
         <Inventory />
@@ -27,7 +35,17 @@ var App = React.createClass({
 var Header = React.createClass({
   render : function() {
     return (
-      <p>Header</p>
+    <header className="top">
+      <h1>
+        Catch
+        <span className="ofThe">
+        <span className="of">of</span>
+        <span className="the">the</span>
+        </span>
+        Day
+      </h1>
+      <h3 className="tagline"><span>{this.props.tagline}</span></h3>
+    </header>
     )
   }
 })
@@ -100,4 +118,13 @@ mutilple lines of HTML to be displayed
 Tells React where to render elements.
 In this case: under the MAIN id on the index.HTML
 */
-ReactDOM.render(<App/>, document.querySelector('#main'));
+
+//routes
+var routes = (
+  <Router history={createBrowserHistory()}>
+    <Route path="/" component={StorePicker} />
+    <Route path="/store/:storeId" component={App} />
+  </Router>
+)
+
+ReactDOM.render(routes, document.querySelector('#main'));
