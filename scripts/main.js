@@ -2,8 +2,63 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 
 /*
+App
+*/
+
+var App = React.createClass({
+
+  render : function() {
+    return (
+      <div className = "catch-of-the-day">
+        <div className="menu">
+          <Header />
+        </div>
+        <Order />
+        <Inventory />
+      </div>
+    )
+  }
+});
+
+/*
+  Header
+  <Header />
+*/
+var Header = React.createClass({
+  render : function() {
+    return (
+      <p>Header</p>
+    )
+  }
+})
+
+/*
+  Inventory
+  <Inventory />
+*/
+var Inventory = React.createClass({
+  render : function() {
+    return (
+      <p>Inventory</p>
+    )
+  }
+})
+
+/*
+  Order
+  <Order />
+*/
+var Order = React.createClass({
+  render : function() {
+    return (
+      <p>Order</p>
+    )
+  }
+})
+
+/*
   StorePicker
-  Tihs will let us make <StorePicker/>
+  This will let us make <StorePicker/>
 */
 
 var StorePicker = React.createClass({
@@ -23,8 +78,13 @@ mutilple lines of HTML to be displayed
       But that's more work. Hence JSX syntax below
     */
     return (
-    <form>
+      //"class" is a taken name in React.
+      //you must instead use "className"
+    <form className="store-selector">
       <h2>Please Enter a Store</h2>
+
+      {/* comments in JSX must be written like this*/}
+
       <input type="text" ref="storeId" />
       <input type="Submit" />
     </form>
@@ -40,4 +100,4 @@ mutilple lines of HTML to be displayed
 Tells React where to render elements.
 In this case: under the MAIN id on the index.HTML
 */
-ReactDOM.render(<StorePicker/>, document.querySelector('#main'));
+ReactDOM.render(<App/>, document.querySelector('#main'));
