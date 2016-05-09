@@ -7,19 +7,40 @@ var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
 var Route = ReactRouter.Route
 
-var Navigation = ReactRouter.Navigation; //mixins
+//mixins
+var Navigation = ReactRouter.Navigation;
 var History = ReactRouter.History;
 
 var createBrowserHistory = require('history/lib/createBrowserHistory');
 
 //file import
 var helpers = require('./helpers');
-
+//=========================================================
 
 /*
 App
 */
 var App = React.createClass({
+
+//creates initial state
+  getInitialState: function() {
+    return{
+      fishes: {},
+      order: {}
+    }
+  },
+
+  //saves each fish to the state
+  addFish: function(fish) {
+    //gets unique time stamp for each fish, so they can be ordered
+    var timestamp = (new Date()).getTime();
+
+    //update state object
+    this.state.fishes['fish-' + timestamp] = fish;
+
+    //set the state
+    this.setState({fishes: this.state.fishes});
+  },
 
   render : function() {
     return (
@@ -28,11 +49,54 @@ var App = React.createClass({
           <Header tagline="Fresh Seafood Market" />
         </div>
         <Order />
-        <Inventory />
+        <Inventory addFish={this.addFish}/>
       </div>
     )
   }
 });
+
+/*
+  Add Fish form
+  <AddFishForm />
+*/
+
+var AddFishForm = React.createClass({
+
+  createFish : function(event) {
+    // 1. Stop form from submitting
+    event.preventDefault();
+
+    // 2. Take the data from the form and create object
+    var fish = {
+      name : this.refs.name.value,
+      price : this.refs.price.value,
+      status : this.refs.status.value,
+      desc : this.refs.desc.value,
+      image : this.refs.image.value
+    }
+    console.log(fish);
+
+    // 3. Add fish to App State
+    this.props.addFish(fish);
+  },
+
+  render : function() {
+    return (
+      <form className="fish-edit" onSubmit={this.createFish}>
+        <input type="text" ref="name" placeholder="Fish Name" />
+        <input type="text" ref="price" placeholder="Fish Price" />
+          <select ref="status">
+            <option value="available">Fresh!</option>
+            <option value="unavailable">Sold Out!</option>
+          </select>
+          <textarea type="text" ref="desc" placeholder="Desc"></textarea>
+            <input type="text" ref="image" placeholder="URL to Image" />
+            <button type="submit">+ Add Item </button>
+      </form>
+    )
+  }
+});
+
 
 
 /*
@@ -65,7 +129,11 @@ var Header = React.createClass({
 var Inventory = React.createClass({
   render : function() {
     return (
-      <p>Inventory</p>
+      <div>
+        <h2>Inventory</h2>
+
+        <AddFishForm {...this.props}/>
+      </div>
     )
   }
 })
