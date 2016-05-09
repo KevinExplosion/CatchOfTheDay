@@ -9,6 +9,9 @@ var Route = ReactRouter.Route;
 var Navigation = ReactRouter.Navigation;
 var createBrowserHistory = require('history/lib/createBrowserHistory');
 
+//file import
+var helpers = require('./helpers');
+
 /*
 App
 */
@@ -113,7 +116,7 @@ mutilple lines of HTML to be displayed
 
       {/* comments in JSX must be written like this*/}
 
-      <input type="text" ref="storeId" />
+      <input type="text" ref="storeId" defaultValue={helpers.getFunName()} required/>
       <input type="Submit" />
     </form>
     //you can't return sibling elements.
