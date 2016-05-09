@@ -75,6 +75,16 @@ var Order = React.createClass({
 })
 
 /*
+  Not found
+*/
+
+var NotFound = React.createClass({
+  render : function() {
+    return <h1>Not Found!</h1>
+  }
+});
+
+/*
   StorePicker
   This will let us make <StorePicker/>
 */
@@ -124,6 +134,9 @@ var routes = (
   <Router history={createBrowserHistory()}>
     <Route path="/" component={StorePicker} />
     <Route path="/store/:storeId" component={App} />
+
+    {/*mock 404 file path*/}
+    <Route path="*" component={NotFound} />
   </Router>
 )
 
