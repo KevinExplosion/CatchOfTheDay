@@ -5,17 +5,20 @@ var ReactDOM = require('react-dom');
 //react-router requirements
 var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
-var Route = ReactRouter.Route;
-var Navigation = ReactRouter.Navigation;
+var Route = ReactRouter.Route
+
+var Navigation = ReactRouter.Navigation; //mixins
+var History = ReactRouter.History;
+
 var createBrowserHistory = require('history/lib/createBrowserHistory');
 
 //file import
 var helpers = require('./helpers');
 
+
 /*
 App
 */
-
 var App = React.createClass({
 
   render : function() {
@@ -30,6 +33,7 @@ var App = React.createClass({
     )
   }
 });
+
 
 /*
   Header
@@ -53,6 +57,7 @@ var Header = React.createClass({
   }
 })
 
+
 /*
   Inventory
   <Inventory />
@@ -64,6 +69,7 @@ var Inventory = React.createClass({
     )
   }
 })
+
 
 /*
   Order
@@ -77,22 +83,32 @@ var Order = React.createClass({
   }
 })
 
+
 /*
   Not found
 */
-
 var NotFound = React.createClass({
   render : function() {
     return <h1>Not Found!</h1>
   }
 });
 
+
 /*
   StorePicker
   This will let us make <StorePicker/>
 */
-
 var StorePicker = React.createClass({
+
+mixins : [History],
+goToStore : function(event) {
+  event.preventDefault();
+  //get the data from the input
+  var storeId = this.refs.storeId.value;
+  this.history.pushState(null, '/store/' + storeId);
+
+  //transition from <StorePicker/> to <App/>
+},
 
 /*
 render method displays HTML. Putting in on its own line between parenthesis allows
@@ -111,7 +127,7 @@ mutilple lines of HTML to be displayed
     return (
       //"class" is a taken name in React.
       //you must instead use "className"
-    <form className="store-selector">
+    <form className="store-selector" onSubmit={this.goToStore}>
       <h2>Please Enter a Store</h2>
 
       {/* comments in JSX must be written like this*/}
